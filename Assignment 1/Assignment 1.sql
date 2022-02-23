@@ -8,7 +8,10 @@ DROP TABLE IF EXISTS SupplyInventory;
 DROP TABLE IF EXISTS SupplyOrder;
 DROP TABLE IF EXISTS Services;
 DROP TABLE IF EXISTS ServiceStatus;
+DROP TABLE IF EXISTS TavernServices;
 DROP TABLE IF EXISTS ServiceSales;
+
+/* Tables based on first example schema shown in class */
 
 CREATE TABLE Taverns (
     ID INT IDENTITY(1,1),
@@ -53,7 +56,7 @@ INSERT INTO Roles VALUES ('Bartender');
 
 CREATE TABLE Locations (
     ID INT IDENTITY(1,1),
-    Name VARCHAR(75)
+    Name VARCHAR(100)
 );
 
 INSERT INTO Locations VALUES ('Medford, NJ');
@@ -80,7 +83,7 @@ INSERT INTO BasementRats VALUES ('Harry', 1);
 INSERT INTO BasementRats VALUES ('Alice', 2);
 INSERT INTO BasementRats VALUES ('Marry', 3);
 
-
+/* Types of supplies with name and unit */
 CREATE TABLE Supplies (
     ID INT IDENTITY(1,1),
     Name VARCHAR(50),
@@ -93,7 +96,7 @@ INSERT INTO Supplies VALUES ('Cheese', 'Wheel');
 INSERT INTO Supplies VALUES ('Cheese', 'Slice');
 INSERT INTO Supplies VALUES ('Pie', 'Slice');
 
-
+/* Current supply inventory for all taverns linked by supply and tavern ID */
 CREATE TABLE SupplyInventory (
     SupplyID INT,
     TavernID INT,
@@ -112,10 +115,11 @@ INSERT INTO SupplyInventory VALUES (2,3, 3, '2022-02-22');
 INSERT INTO SupplyInventory VALUES (2,4, 3, '2022-02-22');
 INSERT INTO SupplyInventory VALUES (2,5, 3, '2022-02-22');
 
+/* Supply orders for all taverns linked by supply and tavern ID */
 CREATE TABLE SupplyOrder (
     SupplyID INT,
     TavernID INT,
-    Cost DECIMAL(5,3),
+    Cost DECIMAL(5,2),
     Amount INT,
     Date DATE
 );
@@ -131,6 +135,7 @@ INSERT INTO SupplyOrder VALUES (3,2,19.5, 3, '2022-02-22');
 INSERT INTO SupplyOrder VALUES (4,2,19.5, 3, '2022-02-22');
 INSERT INTO SupplyOrder VALUES (5,2,19.5, 3, '2022-02-22');
 
+/* Types of services */
 CREATE TABLE Services (
     ID INT IDENTITY(1,1),
     Name VARCHAR(50)
@@ -142,23 +147,35 @@ INSERT INTO Services VALUES ('Inn');
 INSERT INTO Services VALUES ('Entertainment');
 INSERT INTO Services VALUES ('Stables');
 
-/* Status Enum
-    Active 1
-    Inactive 2
-*/    
-    
+/* Types of service status */
 CREATE TABLE ServiceStatus (
-    SerivceID INT,
-    TavernID INT,
-    status INT
+    ID INT IDENTITY(1,1),
+    Name VARCHAR(50)
 );
 
-INSERT INTO ServiceStatus VALUES (1, 1, 1);
-INSERT INTO ServiceStatus VALUES (1, 2, 1);
-INSERT INTO ServiceStatus VALUES (1, 3, 1);
-INSERT INTO ServiceStatus VALUES (1, 4, 1);
-INSERT INTO ServiceStatus VALUES (1, 5, 1);
+INSERT INTO ServiceStatus VALUES ('Active');
+INSERT INTO ServiceStatus VALUES ('Inactive');
+INSERT INTO ServiceStatus VALUES ('Out of Stock');
+INSERT INTO ServiceStatus VALUES ('Discontinued');
+INSERT INTO ServiceStatus VALUES ('Out of Season');
 
+
+/* Services offered by all taverns linked by service, tavern, and status
+   ID */
+CREATE TABLE TavernServices (
+    ServiceID INT,
+    TavernID INT,
+    statusID INT
+);
+
+INSERT INTO TavernServices VALUES (1, 1, 1);
+INSERT INTO TavernServices VALUES (1, 2, 1);
+INSERT INTO TavernServices VALUES (1, 3, 1);
+INSERT INTO TavernServices VALUES (1, 4, 1);
+INSERT INTO TavernServices VALUES (1, 5, 1);
+
+/* Service sales of all taverns linked by service, tavern, and user
+   ID (assumes customers must be users in system) */
 CREATE TABLE ServiceSales (
     ServiceID INT,
     TavernID INT,
@@ -183,4 +200,5 @@ SELECT TOP 10 * FROM SupplyInventory;
 SELECT TOP 10 * FROM SupplyOrder;
 SELECT TOP 10 * FROM Services;
 SELECT TOP 10 * FROM ServiceStatus;
+SELECT TOP 10 * FROM TavernServices;
 SELECT TOP 10 * FROM ServiceSales;
