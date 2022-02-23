@@ -142,10 +142,15 @@ INSERT INTO Services VALUES ('Inn');
 INSERT INTO Services VALUES ('Entertainment');
 INSERT INTO Services VALUES ('Stables');
 
+/* Status Enum
+    Active 1
+    Inactive 2
+*/    
+    
 CREATE TABLE ServiceStatus (
     SerivceID INT,
     TavernID INT,
-    Active BIT,
+    status INT
 );
 
 INSERT INTO ServiceStatus VALUES (1, 1, 1);
